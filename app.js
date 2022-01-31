@@ -1,6 +1,7 @@
 //Require modules we use 
 const express = require( "express" );
 const bodyParser = require( "body-parser" );
+const ejs = require( "ejs" );
 const mongoose = require( "mongoose" );
 
 //Creating an app constant and use EJS as its view engine
