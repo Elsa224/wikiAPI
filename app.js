@@ -29,3 +29,13 @@ const articleSchema = mongoose.Schema( {
 
 //Model
 const Article = mongoose.model( "Article", articleSchema );
+
+
+let APP_PORT = process.env.PORT;
+if ( APP_PORT == null || APP_PORT == "" ) 
+    { APP_PORT = 3000 };
+
+    //Spin up the server
+app.listen( APP_PORT, (  ) => {
+    console.log( `Server has started successfully on port ${ APP_PORT }...\n` );
+} );
