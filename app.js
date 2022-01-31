@@ -10,3 +10,22 @@ app.use( bodyParser.urlencoded( { extended: true } ) );
 
 //app using modules ( express.static to load local files on the server, bodyParser )
 app.use( express.static( `${ __dirname }/public` ) );
+
+//Database
+mongoose.connect( "mongodb://localhost:27017/wikiDB" );
+
+//Schema
+const articleSchema = mongoose.Schema( {
+    title: {
+        type: String,
+        required: [ "No title specified !" ]
+    },
+
+    content: {
+        type: String,
+        required: [ "Please write at least one letter :(" ]
+    }
+} );
+
+//Model
+const Article = mongoose.model( "Article", articleSchema );
