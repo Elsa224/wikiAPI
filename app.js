@@ -32,6 +32,16 @@ const articleSchema = mongoose.Schema( {
 const Article = mongoose.model( "Article", articleSchema );
 
 
+//GET the articles
+app.get( "/articles", ( req, res ) => {
+    Article.find( ( error, foundArticles ) => {
+        if ( !error )
+            res.send( foundArticles );
+        else    
+            console.log( error );
+    } );
+} );
+
 let APP_PORT = process.env.PORT;
 if ( APP_PORT == null || APP_PORT == "" ) 
     { APP_PORT = 3000 };
