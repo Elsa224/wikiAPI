@@ -3,8 +3,6 @@ const express = require( "express" );
 const bodyParser = require( "body-parser" );
 const ejs = require( "ejs" );
 const mongoose = require( "mongoose" );
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 
 //Creating an app constant and use EJS as its view engine
 const app = express(  );
@@ -67,7 +65,7 @@ app.route( "/articles" )
         } );
     } );
 
-/// ----------------------------------- ROUTE /articles/{something} ----------------------------------- ///
+/// ----------------------------------- ROUTE /articles/:param ----------------------------------- ///
 app.route( "/articles/:articleTitle" )
     .get( ( req, res ) => {
         Article.findOne( { title: req.params.articleTitle }, ( error, foundArticle ) => {
@@ -77,6 +75,43 @@ app.route( "/articles/:articleTitle" )
                 res.send( { error: false, message: "Oups... No article matching :(" } );
         } );
     
+    } )
+
+    .put( ( req, res ) => {
+        Article.updateOne( 
+            { title: req.params.articleTitle }, 
+            { title: req.body.title, content: req.body.content },
+            { overwrite: true }, 
+            ( error ) => {
+                if( !error )
+                    res.send( { error: false, message: "Successfully updated the article" } );
+            }  );
+
+    } )
+
+    .patch( ( req, res ) => {
+        Article.updateOne( 
+            { title: req.params.articleTitle },
+            { $set: req.body },
+            ( error ) => {
+                if( !error )
+                    res.send( { error: false, message: "Successfully updated the selected article" } );
+                else    
+                    res.send( { error: true, message: error } );
+            }
+        )    
+    } )
+
+    .delete( ( req, res ) => {
+        Article.deleteOne( 
+            { title: req.params.articleTitle },
+            ( error ) => {
+                if( !error )
+                    res.send( { error: false, message: "Successfully deleted the selected article" } );
+                else
+                    res.send( { error: true, message: error } );
+            }
+        )
     } );
 
 
